@@ -1,5 +1,5 @@
 import { BuilderContext, BuilderOutput, createBuilder } from '@angular-devkit/architect';
-import { experimental, normalize, Path, schema, json, getSystemPath, join } from '@angular-devkit/core';
+import { experimental, normalize, Path, schema, json, getSystemPath, join, resolve } from '@angular-devkit/core';
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
 import { run } from 'jest';
 import { from, Observable } from 'rxjs';
@@ -39,9 +39,10 @@ export function runJest(
   async function buildArgv(): Promise<string[]> {
     const optionsConverter = new OptionsConverter();
 
-    const { projectRoot } = await getRoots(context);
+    const { workspaceRoot, projectRoot } = await getRoots(context);
 
-    const configuration = require(getSystemPath(join(projectRoot, options.configPath)));
+    const pathToProject: Path = resolve(workspaceRoot, projectRoot);
+    const configuration = require(getSystemPath(join(pathToProject, options.configPath)));
 
     delete options.configPath;
     const argv = optionsConverter.convertToCliArgs(options);
