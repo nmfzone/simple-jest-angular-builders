@@ -1,6 +1,6 @@
 {
   "name": "simple-jest-angular-builders",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Jest runner for Angular build facade",
   "repository": {
     "type": "git",
